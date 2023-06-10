@@ -13,7 +13,7 @@ public class PruebasUca {
 
     public WebDriver driver ;
 
-    public void setUpLogin(){
+    public void setUp(){
         WebDriverManager.chromedriver().setup();
         driver = new FirefoxDriver();
         driver.get("https://www.saucedemo.com/");
@@ -21,21 +21,7 @@ public class PruebasUca {
         driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
     }
 
-    public void setUpAdd(){
-        WebDriverManager.chromedriver().setup();
-        driver = new FirefoxDriver();
-        driver.get("https://www.saucedemo.com/inventory.html");
-        driver.manage().window().maximize();
-        driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
-    }
 
-    public void setUpRemove(){
-        WebDriverManager.chromedriver().setup();
-        driver = new FirefoxDriver();
-        driver.get("https://www.saucedemo.com/cart.html");
-        driver.manage().window().maximize();
-        driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
-    }
 
     public void Login(){
         WebElement loginBtn;
@@ -58,7 +44,7 @@ public class PruebasUca {
         userInput = driver.findElement(By.cssSelector("#user-name"));
         passInput = driver.findElement(By.cssSelector("#password"));
 
-        userInput.sendKeys("standard_user");
+        userInput.sendKeys("locked_out_user");
         passInput.sendKeys("secret_sauce");
         loginBtn.click();
     }
@@ -67,7 +53,7 @@ public class PruebasUca {
         WebElement logoutBtn;
         WebElement menuBtn;
 
-        menuBtn = driver.findElement(By.cssSelector("#react-burger-menu-btn"));
+        menuBtn = driver.findElement(By.cssSelector("#menu_button_container > div > div:nth-child(1) > div"));
         logoutBtn = driver.findElement(By.cssSelector("#logout_sidebar_link"));
 
         menuBtn.click();
@@ -90,15 +76,21 @@ public class PruebasUca {
         RemoveBtn.click();
     }
 
+    public void SeeProduct(){
+        WebElement SeeBtn;
+        SeeBtn = driver.findElement(By.cssSelector("#shopping_cart_container"));
+        SeeBtn.click();
+    }
+
     @Test (priority = 1)
     public void testLogin() {
-        setUpLogin();
+        setUp();
         Login();
     }
 
     @Test (priority = 2)
     public void testAdd() {
-        setUpLogin();
+        setUp();
         Login();
 
         AddProduct();
@@ -106,7 +98,7 @@ public class PruebasUca {
 
     @Test (priority = 3)
     public void testRemove() {
-        setUpLogin();
+        setUp();
         Login();
 
         AddProduct();
@@ -116,15 +108,25 @@ public class PruebasUca {
 
     @Test (priority = 4)
     public void testLogout() {
-        setUpLogin();
+        setUp();
+
         Login();
         Logout();
     }
 
     @Test (priority = 5)
     public void testLoginError() {
-        setUpLogin();
+        setUp();
         LoginError();
     }
 
+    @Test (priority = 5)
+    public void testSeeProducts() {
+        setUp();
+        Login();
+
+        AddProduct();
+
+        SeeProduct();
+    }
 }
