@@ -120,7 +120,7 @@ public class PruebasUca {
         LoginError();
     }
 
-    @Test (priority = 5)
+    @Test (priority = 6)
     public void testSeeProducts() {
         setUp();
         Login();
